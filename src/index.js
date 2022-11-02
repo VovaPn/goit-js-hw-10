@@ -12,13 +12,17 @@ input.addEventListener('input',debounce(() => {motherFunction()
 }, DEBOUNCE_DELAY));
   
 function motherFunction() {
+  if (input.value !== '')
+  {
     fetchCountries(input.value.trim()).then((country) => {
-        if (country.length > 10) { Notiflix.Notify.info('Too many matches found. Please enter a more specific name.') }
+  if (country.length > 10) { Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');ul.innerHTML='' }
         else if (country.length > 1) { renderCountryList(country) }
         else { renderOneCountry(country) }
     })
         .catch((error) => { console.log(error), Notiflix.Notify.failure('Oops, there is no country with that name'), ul.innerHTML = '' })    
-};
+}
+else { ul.innerHTML = '' }  
+}       
 
 function renderCountryList(country) {const markup = country
     .map((country) => {
